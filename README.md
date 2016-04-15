@@ -1,2 +1,2 @@
 # zodiac
-time serie javascript library
+Time serie Javascript library
