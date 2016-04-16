@@ -1,0 +1,28 @@
+{
+  "name": "zodiac",
+  "version": "1.0.0",
+  "description": "time serie library",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antoinevastel/zodiac.git"
+  },
+  "keywords": [
+    "time",
+    "serie",
+    "forecast"
+  ],
+  "author": "antoine vastel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antoinevastel/zodiac/issues"
+  },
+  "homepage": "https://github.com/antoinevastel/zodiac#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^2.2.0"
+  }
+}
