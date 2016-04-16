@@ -1,6 +1,7 @@
 var assert = require('assert');
 var TestSimpleExpSmooth = require('./simpleExponentialSmoothingTest.js');
-var TestDoubleExpSmooth = require('./doubleExponentialSmoothingTest.js')
+var TestDoubleExpSmooth = require('./doubleExponentialSmoothingTest.js');
+var TestHoltSmooth = require('./holtSmoothingTest.js');
 
 /*Tests for simple exponential smoothing */
 describe('predictSimpleExpSmooth()', function() {
@@ -59,8 +60,49 @@ describe('predictDoubleExpSmooth()', function() {
 });
 
 describe('optimizeAlphaDoubleExpSmooth()', function() {
-  it('Should return 0.2', function() {
+  it('Should return 0.5499...', function() {
   	var optimizedAlpha = TestDoubleExpSmooth.testOptimizationAlpha();
     assert.equal(optimizedAlpha, 0.5499999999999999);
+  });
+});
+
+/*Tests for Holt smoothing */
+describe('predictHoltSmooth()', function() {
+  it('', function() {
+  	var expectedResult = [null, 220, 222.56000000000003, 225.7216, 227.04537599999998, 230.54875135999995, 233.79907624959995, 232.75749288345597, 233.55074457174013, 236.214516887493, 237.7612962239464, 237.6266527320713, 239.47546998124915];
+  	var result = TestHoltSmooth.testPredict();
+  	var same = true;
+  	var i = 0;
+  	while(i < result.length && same)
+  	{
+  		if(result[i] != expectedResult[i])
+  		{
+  			same = false;
+  		}
+  		++i;
+  	}
+
+  	console.log("Expected result : ");
+  	console.log(expectedResult);
+  	console.log("Obtained result : ");
+  	console.log(result);
+    assert.equal(same, true);
+  });
+});
+
+describe('optimizeParametersHoltSmooth()', function() {
+  it('Should return alpha = 0.449.. and gamma = 0.399..', function() {
+  	var optimizedParameters = TestHoltSmooth.testOptimizationParameters();
+  	var same = true;
+  	if(optimizedParameters.alpha != 0.44999999999999996)
+  	{
+  		same = false;
+  	}
+
+  	if(optimizedParameters.gamma != 0.39999999999999997)
+  	{
+  		same = false;
+  	}
+    assert.equal(same, true);
   });
 });

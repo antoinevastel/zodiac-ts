@@ -207,3 +207,114 @@ exports.DoubleExponentialSmoothing.prototype.optimizeParameter = function(iter)
 	this.alpha = bestAlpha;
 	return this.alpha;
 }
+
+/*Holt smoothing */
+exports.HoltSmoothing = function(data, alpha, gamma)
+{
+	if(data == null)
+	{
+		throw "data parameter is null";
+	}
+	else if(data.length < 2)
+	{
+		throw "data doesn't contain enough data to make a prediction";
+	}
+
+	if(alpha > 1 || alpha < 0)
+	{
+		throw "alpha parameter must be between 0 and 1";
+	}
+
+	if(gamma > 1 || gamma < 0)
+	{
+		throw "gamma parameter must be between 0 and 1";
+	}
+
+	this.data = data;
+	this.alpha = alpha;
+	this.gamma = gamma;
+	this.forecast = null;
+};
+
+exports.HoltSmoothing.prototype.predict =function ()
+{
+	A = Array();
+	B = Array();
+
+	A[0] = 0;
+	B[0] = this.data[0];
+
+	for(var i = 1; i < this.data.length; ++i)
+	{
+		B[i] = this.alpha*this.data[i] + (1-this.alpha)*(B[i-1] + A[i-1]);
+		A[i] = this.gamma*(B[i]-B[i-1])+ (1-this.gamma)*A[i-1];
+	}
+
+	var forecast = Array();
+	forecast[0] = null;
+	for(var i = 1; i <= this.data.length; ++i)
+	{
+		forecast[i] = A[i-1] + B[i-1];
+	}
+
+	this.forecast = forecast;
+	return forecast;
+}
+
+
+exports.HoltSmoothing.prototype.getForecast = function()
+{
+	if(this.forecast == null)
+	{
+		this.predict();
+	}
+	return this.forecast;
+}
+
+exports.HoltSmoothing.prototype.computeMeanSquaredError = function()
+{ 
+	var SSE = 0.0;
+	var n = 0;
+	for(var i = 0; i < this.data.length; ++i)
+	{
+		if(this.data[i] != null && this.forecast[i] != null)
+		{
+			SSE += Math.pow(this.data[i] - this.forecast[i], 2);	
+			n++;
+		} 
+		
+	}
+	return 1/(n-1)*SSE;
+};
+
+exports.HoltSmoothing.prototype.optimizeParameters = function(iter)
+{
+	var incr = 1/iter;
+	var bestAlpha = 0.0;
+	var bestError = -1;
+	this.alpha = bestAlpha;
+	var bestGamma = 0.0;
+	this.gamma = bestGamma;
+
+	while(this.alpha < 1)
+	{
+		while(this.gamma < 1)
+		{
+			var forecast = this.predict();
+			var error = this.computeMeanSquaredError();
+			if(error < bestError || bestError == -1)
+			{
+				bestAlpha = this.alpha;
+				bestGamma = this.gamma;
+				bestError = error;
+			}
+			this.gamma += incr;
+		}
+		this.gamma = 0;
+		this.alpha += incr;
+	}
+
+	this.alpha = bestAlpha;
+	this.gamma = bestGamma;
+	return {"alpha":this.alpha, "gamma":this.gamma};
+}
