@@ -23,3 +23,11 @@ describe('predictSimpleExpSmooth()', function() {
     assert.equal(same, true);
   });
 });
+
+
+describe('optimizeAlphaSimpleExpSmooth()', function() {
+  it('Should return 0.2', function() {
+  	var optimizedAlpha = TestSimpleExpSmooth.testOptimizationAlpha();
+    assert.equal(optimizedAlpha, 0.2);
+  });
+});

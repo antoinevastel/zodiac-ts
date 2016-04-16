@@ -1,21 +1,5 @@
 var exports = module.exports = {};
 
-exports.computeMeanSquaredError = function(data, forecast)
-{ 
-	var SSE = 0.0;
-	var n = 0;
-	for(var i = 0; i < data.length; ++i)
-	{
-		if(data[i] != null && forecast[i] != null)
-		{
-			SSE += Math.pow(data[i] - forecast[i], 2);	
-			n++;
-		} 
-		
-	}
-	return 1/(n-1)*SSE;
-};
-
 exports.SimpleExponentialSmoothing = function(data, alpha)
 {
 	if(data == null)
@@ -61,6 +45,22 @@ exports.SimpleExponentialSmoothing.prototype.getForecast = function()
 	return this.forecast;
 }
 
+exports.SimpleExponentialSmoothing.prototype.computeMeanSquaredError = function()
+{ 
+	var SSE = 0.0;
+	var n = 0;
+	for(var i = 0; i < this.data.length; ++i)
+	{
+		if(this.data[i] != null && this.forecast[i] != null)
+		{
+			SSE += Math.pow(this.data[i] - this.forecast[i], 2);	
+			n++;
+		} 
+		
+	}
+	return 1/(n-1)*SSE;
+};
+
 exports.SimpleExponentialSmoothing.prototype.optimizeParameter = function(iter)
 {
 	var incr = 1/iter;
@@ -71,7 +71,7 @@ exports.SimpleExponentialSmoothing.prototype.optimizeParameter = function(iter)
 	while(this.alpha < 1)
 	{
 		var forecast = this.predict();
-		var error = computeMeanSquaredError(this.data, this.getForecast());
+		var error = this.computeMeanSquaredError();
 		if(error < bestError || bestError == -1)
 		{
 			bestAlpha = this.alpha;

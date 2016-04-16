@@ -11,3 +11,12 @@ exports.testPredict = function() {
 
 	return forecast;
 };
+
+
+exports.testOptimizationAlpha = function()
+{
+	var data = [25, 29, 24, 21, 26, 23, 27, 25, 21, 24, 26, 29, 25];
+	var simpleExpSmooth = new ts.SimpleExponentialSmoothing(data, null);
+
+	return simpleExpSmooth.optimizeParameter(20);
+};
