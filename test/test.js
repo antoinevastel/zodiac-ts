@@ -2,6 +2,7 @@ var assert = require('assert');
 var TestSimpleExpSmooth = require('./simpleExponentialSmoothingTest.js');
 var TestDoubleExpSmooth = require('./doubleExponentialSmoothingTest.js');
 var TestHoltSmooth = require('./holtSmoothingTest.js');
+var TestHoltWintersSmooth = require('./holtWintersTest.js');
 
 /*Tests for simple exponential smoothing */
 describe('predictSimpleExpSmooth()', function() {
@@ -103,6 +104,53 @@ describe('optimizeParametersHoltSmooth()', function() {
   	{
   		same = false;
   	}
+    assert.equal(same, true);
+  });
+});
+
+/*Tests for Holt Winters */
+describe('predictHoltWintersSmoothAdd()', function() {
+  it('', function() {
+  	var expectedResult = [ null, null, null, null, 61.5, 67.28, 62.537600000000005, 79.80115200000003, 73.13719104, 77.04783918080001, 71.025120930816, 87.94969470636033,83.61671728317809,85.7372107163745,79.93725983621758,96.31433531356754,91.95095302251006,92.64088086972602,85.36367192818317,100.17738187172976 ];
+  	var result = TestHoltWintersSmooth.testPredictAdd();
+  	var same = true;
+  	var i = 0;
+  	while(i < result.length && same)
+  	{
+  		if(result[i] != expectedResult[i])
+  		{
+  			same = false;
+  		}
+  		++i;
+  	}
+
+  	console.log("Expected result : ");
+  	console.log(expectedResult);
+  	console.log("Obtained result : ");
+  	console.log(result);
+    assert.equal(same, true);
+  });
+});
+
+describe('predictHoltWintersSmoothMult()', function() {
+  it('', function() {
+  	var expectedResult = [ null, null, null, null,61.5, 67.39278048780487, 61.81707875270145, 81.53022450414605,73.0764828139659, 77.07844011856474,69.47490699048109, 90.35656320643135,83.73280606463544, 85.74340016330459,77.7770276222308, 98.90911323239595,92.39012665258913, 92.99431396647569,83.54705489973043, 101.37471727927124 ];
+  	var result = TestHoltWintersSmooth.testPredictMult();
+  	var same = true;
+  	var i = 0;
+  	while(i < result.length && same)
+  	{
+  		if(result[i] != expectedResult[i])
+  		{
+  			same = false;
+  		}
+  		++i;
+  	}
+
+  	console.log("Expected result : ");
+  	console.log(expectedResult);
+  	console.log("Obtained result : ");
+  	console.log(result);
     assert.equal(same, true);
   });
 });

@@ -1,5 +1,9 @@
 var exports = module.exports = {};
 
+/*
+	TODO : if we call meanSquaredError and the forecast is null, we should return null
+*/
+
 /*Simple exponential smoothing */
 
 exports.SimpleExponentialSmoothing = function(data, alpha)
@@ -317,4 +321,155 @@ exports.HoltSmoothing.prototype.optimizeParameters = function(iter)
 	this.alpha = bestAlpha;
 	this.gamma = bestGamma;
 	return {"alpha":this.alpha, "gamma":this.gamma};
+}
+
+/*Holt Winters smoothing */
+exports.HoltWintersSmoothing = function(data, alpha, gamma, delta, seasonLength, mult)
+{
+	if(data == null)
+	{
+		throw "data parameter is null";
+	}
+	else if(data.length < 2)
+	{
+		throw "data doesn't contain enough data to make a prediction";
+	}
+
+	if(alpha > 1 || alpha < 0)
+	{
+		throw "alpha parameter must be between 0 and 1";
+	}
+
+	if(gamma > 1 || gamma < 0)
+	{
+		throw "gamma parameter must be between 0 and 1";
+	}
+
+	if(delta > 1 || delta < 0)
+	{
+		throw "delta parameter must be between 0 and 1";
+	}
+
+	if(seasonLength < 0)
+	{
+		throw "seasonLength parameter must be a positive integer";
+	}
+
+	if(mult != true && mult != false)
+	{
+		throw "mult parameter must be a boolean";
+	}
+
+	//data = [61.5, 63.2, 55.8, 71.4, 70, 71.4, 63.9, 78.9, 78.3, 78.6, 71.9, 87, 86.2, 87.5, 80.1, 92.5];
+	this.data = data;
+	this.alpha = alpha;
+	this.gamma = gamma;
+	this.delta = delta;
+	this.seasonLength = seasonLength;
+	this.mult = mult;
+	this.forecast = null;
+};
+
+exports.HoltWintersSmoothing.prototype.predict =function ()
+{
+	if(this.mult)
+	{
+		return this.predictMult();
+	}
+	else
+	{
+		return this.predictAdd();
+	}
+}
+
+exports.HoltWintersSmoothing.prototype.predictAdd = function()
+{
+	A = Array();
+	B = Array();
+	S = Array();
+
+	A[this.seasonLength-1] = 0;
+	var averageFirstSeason = 0;
+	for(var i = 0; i < this.seasonLength; ++i)
+	{
+		averageFirstSeason += this.data[i];
+	} 
+	B[this.seasonLength-1] = averageFirstSeason/this.seasonLength;
+
+	for(var i = 0; i < this.seasonLength; ++i)
+	{
+		S[i] = this.data[i] - averageFirstSeason/this.seasonLength;
+	}
+
+	for(var i = this.seasonLength; i < this.data.length; ++i)
+	{
+		B[i] = this.alpha*(this.data[i]- S[i - this.seasonLength])+(1-this.alpha)*(B[i-1]+A[i-1]);
+		A[i] = this.gamma*(B[i]-B[i-1])+(1-this.gamma)*A[i-1];
+		S[i] = this.delta*(this.data[i]-B[i])+(1-this.delta)*S[i-this.seasonLength];
+	}
+
+	var forecast = Array();
+	for(var i = 0; i < this.seasonLength; ++i)
+	{
+		forecast[i]= null;
+	}
+
+	for(var i = this.seasonLength; i < this.data.length; ++i)
+	{
+		forecast[i] = A[i-1] + B[i-1] + S[i - this.seasonLength];
+	}
+
+	for(var i = this.data.length; i < this.data.length + this.seasonLength; ++i)
+	{
+		forecast[i] = B[this.data.length-1] + (i - this.data.length + 1)*A[this.data.length-1] + S[i - this.seasonLength];
+	}
+
+	this.forecast = forecast;
+	return forecast;
+}
+
+exports.HoltWintersSmoothing.prototype.predictMult = function()
+{
+	A = Array();
+	B = Array();
+	S = Array();
+
+	A[this.seasonLength-1] = 0;
+	var averageFirstSeason = 0;
+	for(var i = 0; i < this.seasonLength; ++i)
+	{
+		averageFirstSeason += this.data[i];
+	} 
+	B[this.seasonLength-1] = averageFirstSeason/this.seasonLength;
+
+	for(var i = 0; i < this.seasonLength; ++i)
+	{
+		S[i] = (this.data[i])/(averageFirstSeason/this.seasonLength);
+	}
+
+	for(var i = this.seasonLength; i < this.data.length; ++i)
+	{
+		B[i] = this.alpha*(this.data[i]/S[i - this.seasonLength])+(1-this.alpha)*(B[i-1]+A[i-1]);
+		A[i] = this.gamma*(B[i]-B[i-1])+(1-this.gamma)*A[i-1];
+		S[i] = this.delta*(this.data[i]/B[i])+(1-this.delta)*S[i-this.seasonLength];
+	}
+
+	var forecast = Array();
+	for(var i = 0; i < this.seasonLength; ++i)
+	{
+		forecast[i]= null;
+	}
+
+	for(var i = this.seasonLength; i < this.data.length; ++i)
+	{
+		forecast[i] = (A[i-1] + B[i-1])*S[i - this.seasonLength];
+	}
+
+	for(var i = this.data.length; i < this.data.length + this.seasonLength; ++i)
+	{
+		forecast[i] = (B[this.data.length-1] + (i - this.data.length + 1)*A[this.data.length-1])*S[i -this.seasonLength];
+	}
+
+	this.forecast = forecast;
+	return forecast;
 }
