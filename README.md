@@ -12,6 +12,8 @@ Coming soon :
 - Moving average
 
 How to use Zodiac-ts ?
+- You can install it using npm, by writting : npm install zodiac-ts
+- Or you can simply clone it using git clone
 
 ```javascript
 zodiac = require("zodiac-ts");
