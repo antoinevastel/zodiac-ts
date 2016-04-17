@@ -1,12 +1,19 @@
 # Zodiac-ts ![alt tag](http://img15.hostingpics.net/pics/617223sign.png)
 [![Build Status](https://travis-ci.org/antoinevastel/zodiac.svg?branch=master)](https://travis-ci.org/antoinevastel/zodiac)
-Time serie Javascript library
 
+Zodiac-ts is a time serie library written in Javascript.
+Currently, it implements the following algorithms : 
+- Simple exponential smoothing;
+- Double exponential smoothing;
+- Holt Smoothing;
+- Holt Winters smoothing.
+
+Coming soon : 
+- Moving average
 
 How to use Zodiac-ts ?
 
 ```javascript
-// Your code here
 zodiac = require("zodiac-ts");
 var data = [25, 29, 24, 21, 26, 23, 27, 25, 21, 24, 26, 29, 25];
 
