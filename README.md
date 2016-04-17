@@ -1,5 +1,5 @@
 # Zodiac-ts ![alt tag](http://img15.hostingpics.net/pics/617223sign.png)
-[![Build Status](https://travis-ci.org/antoinevastel/zodiac.svg?branch=master)](https://travis-ci.org/antoinevastel/zodiac)
+[![Build Status](https://travis-ci.org/antoinevastel/zodiac-ts.svg?branch=master)](https://travis-ci.org/antoinevastel/zodiac-ts)
 
 Zodiac-ts is a time serie library written in Javascript.
 Currently, it implements the following algorithms : 
