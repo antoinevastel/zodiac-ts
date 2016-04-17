@@ -2,6 +2,7 @@ var exports = module.exports = {};
 
 /*
 	TODO : if we call meanSquaredError and the forecast is null, we should return null
+			Add optimization for holt winters
 */
 
 /*Simple exponential smoothing */
