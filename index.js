@@ -169,7 +169,7 @@ exports.DoubleExponentialSmoothing.prototype.getForecast = function()
 {
 	if(this.forecast == null)
 	{
-		this.predict();
+		return null;
 	}
 	return this.forecast;
 }
@@ -473,4 +473,70 @@ exports.HoltWintersSmoothing.prototype.predictMult = function()
 
 	this.forecast = forecast;
 	return forecast;
+}
+
+exports.HoltWintersSmoothing.prototype.getForecast = function()
+{
+	if(this.forecast == null)
+	{
+		this.predict();
+	}
+	return this.forecast;
+}
+
+exports.HoltWintersSmoothing.prototype.computeMeanSquaredError = function()
+{ 
+	var SSE = 0.0;
+	var n = 0;
+	for(var i = 0; i < this.data.length; ++i)
+	{
+		if(this.data[i] != null && this.forecast[i] != null)
+		{
+			SSE += Math.pow(this.data[i] - this.forecast[i], 2);	
+			n++;
+		} 
+		
+	}
+	return 1/(n-1)*SSE;
+};
+
+exports.HoltWintersSmoothing.prototype.optimizeParameters = function(iter)
+{
+	var incr = 1/iter;
+	var bestAlpha = 0.0;
+	var bestError = -1;
+	this.alpha = bestAlpha;
+	var bestGamma = 0.0;
+	this.gamma = bestGamma;
+	var bestDelta = 0.0;
+	this.delta = bestDelta;
+
+	while(this.alpha < 1)
+	{
+		while(this.gamma < 1)
+		{
+			while(this.delta < 1)
+			{
+				var forecast = this.predict();
+				var error = this.computeMeanSquaredError();
+				if(error < bestError || bestError == -1)
+				{
+					bestAlpha = this.alpha;
+					bestGamma = this.gamma;
+					bestDelta = this.delta;
+					bestError = error;
+				}
+				this.delta += incr;
+			}
+			this.delta = 0;
+			this.gamma += incr;
+		}
+		this.gamma = 0;
+		this.alpha += incr;
+	}
+
+	this.alpha = bestAlpha;
+	this.gamma = bestGamma;
+	this.delta = bestDelta;
+	return {"alpha":this.alpha, "gamma":this.gamma, "delta":this.delta};
 }

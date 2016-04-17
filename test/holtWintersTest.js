@@ -26,16 +26,21 @@ exports.testPredictMult = function() {
 	var holtWintersSmooth = new ts.HoltWintersSmoothing(data, alpha, gamma, delta, 4, true);
 	var forecast = holtWintersSmooth.predict();
 
-	console.log(forecast);
 	return forecast;
 };
 
-/*
-exports.testOptimizationParameters = function()
+exports.testOptimizationParametersAdd = function()
 {
-	var data = [220, 224, 226, 225, 230, 232, 228, 232, 236, 236, 235, 239];
-	var holtSmooth = new ts.HoltSmoothing(data, null, null);
+	var data = [61.5, 63.2, 55.8, 71.4, 70, 71.4, 63.9, 78.9, 78.3, 78.6, 71.9, 87, 86.2, 87.5, 80.1, 92.5];
+	var holtWintersSmooth = new ts.HoltWintersSmoothing(data, null, null, null, 4, false);
 
-	return holtSmooth.optimizeParameters(20);
+	return holtWintersSmooth.optimizeParameters(20);
 };
-*/
+
+exports.testOptimizationParametersMult = function()
+{
+	var data = [61.5, 63.2, 55.8, 71.4, 70, 71.4, 63.9, 78.9, 78.3, 78.6, 71.9, 87, 86.2, 87.5, 80.1, 92.5];
+	var holtWintersSmooth = new ts.HoltWintersSmoothing(data, null, null, null, 4, true);
+
+	return holtWintersSmooth.optimizeParameters(20);
+};

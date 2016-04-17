@@ -154,3 +154,48 @@ describe('predictHoltWintersSmoothMult()', function() {
     assert.equal(same, true);
   });
 });
+
+describe('optimizeParametersHoltWintersSmoothAdd()', function() {
+  it('', function() {
+    var result = TestHoltWintersSmooth.testOptimizationParametersAdd();
+    var same = true;
+    if(result.alpha != 0.39999999999999997)
+    {
+      same = false;
+    }
+
+    if(result.gamma != 0.44999999999999996)
+    {
+      same = false;
+    }
+
+    if(result.delta != 0.9500000000000003)
+    {
+      same = false;
+    }
+
+    assert.equal(same, true);
+  });
+});
+
+describe('optimizeParametersHoltWintersSmoothMult()', function() {
+  it('', function() {
+    var result = TestHoltWintersSmooth.testOptimizationParametersMult();
+    var same = true;
+    if(result.alpha != 0.3)
+    {
+      same = false;
+    }
+
+    if(result.gamma != 0.44999999999999996)
+    {
+      same = false;
+    }
+
+    if(result.delta != 0.9500000000000003)
+    {
+      same = false;
+    }
+    assert.equal(same, true);
+  });
+});
