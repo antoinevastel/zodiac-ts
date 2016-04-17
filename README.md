@@ -1,4 +1,4 @@
-# Zodiac-ts
+# Zodiac-ts ![alt tag](http://hpics.li/f6ed083)
 [![Build Status](https://travis-ci.org/antoinevastel/zodiac.svg?branch=master)](https://travis-ci.org/antoinevastel/zodiac)
 Time serie Javascript library
 
