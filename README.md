@@ -44,8 +44,7 @@ optimizedAlpha = des.optimizeParameter(20);
 //Case of Holt smoothing
 var gamma = 0.3;
 var hs = new zodiac.HoltSmoothing(data, alpha, gamma)
-forecast = hs.predict();
-console.log(forecast);
+forecast = hs.predict(3); //Horizon of 3
 var optimizedParameters = hs.optimizeParameters(20); //return an object containing the optimized value of alpha and gamma
 //After the optimization, the value of alpha and gamma are directly set to the optimized values
 
