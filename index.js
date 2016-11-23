@@ -121,8 +121,6 @@ exports.DoubleExponentialSmoothing = function(data, alpha)
 exports.DoubleExponentialSmoothing.prototype.predict =function (horizon)
 {
 	var smoothings = Object();
-	//on initialise la premiere valeur du lissage avec la moyenne des deux premiers
-	//éléments de la série
 	smoothings.first = Array();
 	smoothings.second = Array();
 
@@ -241,7 +239,7 @@ exports.HoltSmoothing = function(data, alpha, gamma)
 	this.forecast = null;
 };
 
-exports.HoltSmoothing.prototype.predict =function ()
+exports.HoltSmoothing.prototype.predict =function (horizon)
 {
 	A = Array();
 	B = Array();
@@ -261,6 +259,12 @@ exports.HoltSmoothing.prototype.predict =function ()
 	{
 		forecast[i] = A[i-1] + B[i-1];
 	}
+
+	for(var i = this.data.length +1; this.data.length + horizon; i++)
+	{
+		forecast[i] = forecast[i-1] + A[this.data.length - 1];
+	} 
+
 
 	this.forecast = forecast;
 	return forecast;
@@ -361,7 +365,6 @@ exports.HoltWintersSmoothing = function(data, alpha, gamma, delta, seasonLength,
 		throw "mult parameter must be a boolean";
 	}
 
-	//data = [61.5, 63.2, 55.8, 71.4, 70, 71.4, 63.9, 78.9, 78.3, 78.6, 71.9, 87, 86.2, 87.5, 80.1, 92.5];
 	this.data = data;
 	this.alpha = alpha;
 	this.gamma = gamma;
