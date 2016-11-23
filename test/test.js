@@ -70,7 +70,7 @@ describe('optimizeAlphaDoubleExpSmooth()', function() {
 /*Tests for Holt smoothing */
 describe('predictHoltSmooth()', function() {
   it('', function() {
-  	var expectedResult = [null, 220, 222.56000000000003, 225.7216, 227.04537599999998, 230.54875135999995, 233.79907624959995, 232.75749288345597, 233.55074457174013, 236.214516887493, 237.7612962239464, 237.6266527320713, 239.47546998124915];
+  	var expectedResult = [null, 220, 222.56000000000003, 225.7216, 227.04537599999998, 230.54875135999995, 233.79907624959995, 232.75749288345597, 233.55074457174013, 236.214516887493, 237.7612962239464, 237.6266527320713, 239.47546998124915, 240.7749483232555, 242.07442666526185];
   	var result = TestHoltSmooth.testPredict();
   	var same = true;
   	var i = 0;
@@ -82,7 +82,6 @@ describe('predictHoltSmooth()', function() {
   		}
   		++i;
   	}
-
   	console.log("Expected result : ");
   	console.log(expectedResult);
   	console.log("Obtained result : ");

@@ -1,10 +1,5 @@
 var exports = module.exports = {};
 
-/*
-	TODO : if we call meanSquaredError and the forecast is null, we should return null
-			Add optimization for holt winters
-*/
-
 /*Simple exponential smoothing */
 
 exports.SimpleExponentialSmoothing = function(data, alpha)
@@ -260,7 +255,7 @@ exports.HoltSmoothing.prototype.predict =function (horizon)
 		forecast[i] = A[i-1] + B[i-1];
 	}
 
-	for(var i = this.data.length +1; this.data.length + horizon; i++)
+	for(var i = this.data.length +1; i < this.data.length + horizon; ++i)
 	{
 		forecast[i] = forecast[i-1] + A[this.data.length - 1];
 	} 
@@ -275,7 +270,7 @@ exports.HoltSmoothing.prototype.getForecast = function()
 {
 	if(this.forecast == null)
 	{
-		this.predict();
+		return null;
 	}
 	return this.forecast;
 }

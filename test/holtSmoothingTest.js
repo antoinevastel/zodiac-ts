@@ -9,7 +9,7 @@ exports.testPredict = function() {
 	var data = [220, 224, 226, 225, 230, 232, 228, 232, 236, 236, 235, 239];
 
 	var holtSmooth = new ts.HoltSmoothing(data, alpha, gamma);
-	var forecast = holtSmooth.predict();
+	var forecast = holtSmooth.predict(3);
 
 	return forecast;
 };
