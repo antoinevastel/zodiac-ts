@@ -6,8 +6,8 @@ Currently, it implements the following algorithms :
 - Simple exponential smoothing;
 - Double exponential smoothing;
 - Holt Smoothing;
-- Holt Winters smoothing.
-- Moving average
+- Holt Winters smoothing;
+- Moving average.
 
 How to use Zodiac-ts ?
 - You can install it using npm, by writting : npm install zodiac-ts
