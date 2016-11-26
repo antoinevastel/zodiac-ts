@@ -3,6 +3,7 @@ var TestSimpleExpSmooth = require('./simpleExponentialSmoothingTest.js');
 var TestDoubleExpSmooth = require('./doubleExponentialSmoothingTest.js');
 var TestHoltSmooth = require('./holtSmoothingTest.js');
 var TestHoltWintersSmooth = require('./holtWintersTest.js');
+var TestMovingAverage = require('./movingAverageTest.js')
 
 /*Tests for simple exponential smoothing */
 describe('predictSimpleExpSmooth()', function() {
@@ -195,6 +196,30 @@ describe('optimizeParametersHoltWintersSmoothMult()', function() {
     {
       same = false;
     }
+    assert.equal(same, true);
+  });
+});
+
+//test for moving average
+describe('movingAverageSmooth()', function() {
+  it('', function() {
+    var result = TestMovingAverage.testMovingAverageSmoothing();
+    var same = true;
+    var expectedResult = [null, 26, 24.666666666666668, 23.666666666666668, 23.333333333333332, 25.333333333333332, 25, 24.333333333333332, 23.333333333333332, 23.666666666666668, 26.333333333333332, 26.666666666666668]
+    var i = 0;
+    while(i < result.length && same)
+    {
+      if(result[i] != expectedResult[i])
+      {
+        same = false;
+      }
+      ++i;
+    }
+
+    console.log("Expected result : ");
+    console.log(expectedResult);
+    console.log("Obtained result : ");
+    console.log(result);
     assert.equal(same, true);
   });
 });

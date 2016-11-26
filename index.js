@@ -538,3 +538,41 @@ exports.HoltWintersSmoothing.prototype.optimizeParameters = function(iter)
 	this.delta = bestDelta;
 	return {"alpha":this.alpha, "gamma":this.gamma, "delta":this.delta};
 }
+
+/*Moving average */
+
+exports.MovingAverage = function(data)
+{
+	if(data == null)
+	{
+		throw "data parameter is null";
+	}
+	else if(data.length < 3)
+	{
+		throw "data doesn't contain enough data to make a prediction";
+	}
+
+	this.data = data;
+};
+
+exports.MovingAverage.prototype.smooth = function(order)
+{
+	if(order < 1)
+	{
+		throw "order parameter must be a positive integer";
+	}
+
+	var result = Array();
+
+	for(var i = order; i < this.data.length - order ; ++i)
+	{
+		result[i] = 0;
+		for(var j = i - order; j <= i + order; j++)
+		{
+			result[i] += this.data[j];
+		}
+		result[i] /= 2*order +1;
+	}
+
+	return result;
+};
