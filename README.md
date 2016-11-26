@@ -7,8 +7,6 @@ Currently, it implements the following algorithms :
 - Double exponential smoothing;
 - Holt Smoothing;
 - Holt Winters smoothing.
-
-Coming soon : 
 - Moving average
 
 How to use Zodiac-ts ?
@@ -58,5 +56,11 @@ var hws = new zodiac.HoltWintersSmoothing(data, alpha, gamma, delta, seasonLengt
 forecast = hws.predict();
 optimizedParameters = hws.optimizeParameters(20); //return an object containing the optimized values of alpha, gamma and delta
 //After the optimization, the value of alpha, gamma and delta are directly set to the optimized values
+
+//Case of moving average
+var ma = new zodiac.MovingAverage(data);
+var order = 1;
+dataSmoothed = ma.smooth(order);
+//The mean is taken from an equal number (order) of data on either side of a central value 
 
 ```
