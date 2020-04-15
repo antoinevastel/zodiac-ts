@@ -4,7 +4,8 @@
   "description": "time serie library",
   "main": "index.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "bundle": "npx browserify index.js -o zodiac-ts-bundle.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/antoinevastel/zodiac#readme",
   "devDependencies": {
+    "browserify": "^16.5.1",
     "gulp": "^3.9.1",
     "gulp-mocha": "^2.2.0"
   }
