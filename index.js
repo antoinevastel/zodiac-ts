@@ -37,7 +37,7 @@ class SimpleExponentialSmoothing {
 		return forecast;
 	};
 
-	getForecast = function()
+	getForecast()
 	{
 		if(this.forecast == null)
 		{
@@ -46,7 +46,7 @@ class SimpleExponentialSmoothing {
 		return this.forecast;
 	}
 
-	computeMeanSquaredError = function()
+	computeMeanSquaredError()
 	{ 
 		var SSE = 0.0;
 		var n = 0;
