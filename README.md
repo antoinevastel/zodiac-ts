@@ -10,8 +10,9 @@ Currently, it implements the following algorithms :
 - Moving average.
 
 How to use Zodiac-ts ?
-- You can install it using npm, by writting : npm install zodiac-ts
+- You can install it using npm, by writting : `npm install zodiac-ts`
 - Or you can simply clone it using git clone
+- Zodiac-ts can also be run client-side in the browser, by including `<script src="zodiac-ts-bundle.js"></script>`
 
 ```javascript
 zodiac = require("zodiac-ts");

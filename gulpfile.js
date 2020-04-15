@@ -1,11 +1,12 @@
 var gulp   = require('gulp');
 var mocha  = require('gulp-mocha');
 
-gulp.task('test', function() {
+function testTask() {
   return gulp
     .src('test/test.js')
     .pipe(mocha());
-});
+}
 
- 
-gulp.task('default', ['test']);
+gulp.task('test', testTask);
+
+gulp.task('default', testTask);
