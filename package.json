@@ -1,11 +1,11 @@
 {
   "name": "zodiac-ts",
   "version": "1.0.3",
-  "description": "time serie library",
+  "description": "time series library",
   "main": "index.js",
   "scripts": {
     "test": "gulp test",
-    "bundle": "npx browserify index.js -o zodiac-ts-bundle.js --s zodiac-ts"
+    "bundle": "npx browserify index.js -o zodiac-ts-bundle.js --s zodiac"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
   "homepage": "https://github.com/antoinevastel/zodiac#readme",
   "devDependencies": {
     "browserify": "^16.5.1",
-    "gulp": "^3.9.1",
-    "gulp-mocha": "^2.2.0"
+    "gulp": "^4.0.2",
+    "gulp-mocha": "^7.0.2"
   }
 }

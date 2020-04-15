@@ -6,6 +6,3 @@ gulp.task('test', function() {
     .src('test/test.js')
     .pipe(mocha());
 });
-
- 
-gulp.task('default', ['test']);
